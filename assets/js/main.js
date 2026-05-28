@@ -1,159 +1,221 @@
 /* =============================================================
-   CARDOSO NETTOYAGES SÀRL — SCRIPT PRINCIPAL
-   Gère : loader, curseur, navbar, parallax, animations,
-          typewriter, compteurs, tilt 3D, particules, formulaire.
+   CARDOSO NETTOYAGES — SCRIPT ÉDITORIAL
+   Smooth scroll, split text, curseur magnétique, parallax doux
    ============================================================= */
 
 (function () {
     'use strict';
 
-    /* =====================================================
-       0. UTILITAIRES
-    ===================================================== */
-    const $  = (sel, ctx = document) => ctx.querySelector(sel);
-    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+    const $  = (s, ctx = document) => ctx.querySelector(s);
+    const $$ = (s, ctx = document) => Array.from(ctx.querySelectorAll(s));
     const lerp = (a, b, t) => a + (b - a) * t;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isTouch = matchMedia('(hover: none)').matches;
 
     /* =====================================================
-       1. LOADER
+       1. LOADER — barre + compteur
     ===================================================== */
-    window.addEventListener('load', () => {
-        const loader = $('#loader');
-        setTimeout(() => {
-            loader.classList.add('hidden');
-            startHeroAnimations();
-        }, 1600);
-    });
+    (function loader() {
+        const el = $('#loader');
+        const count = $('#loaderCount');
+        const fill = $('.loader-fill');
+        let n = 0;
+        const total = 1600;
+        const start = performance.now();
+
+        const tick = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / total, 1);
+            n = Math.floor(progress * 100);
+            count.textContent = String(n).padStart(2, '0');
+            fill.style.width = (progress * 100) + '%';
+            if (progress < 1) requestAnimationFrame(tick);
+            else setTimeout(() => {
+                el.classList.add('hidden');
+                document.body.classList.add('loaded');
+                startHero();
+            }, 280);
+        };
+        requestAnimationFrame(tick);
+    })();
 
     /* =====================================================
-       2. CURSEUR PERSONNALISÉ (avec traîne)
+       2. SPLIT TEXT — mots et caractères
+    ===================================================== */
+    function splitChars(el) {
+        const text = el.textContent;
+        el.textContent = '';
+        const frag = document.createDocumentFragment();
+        for (const ch of text) {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.dataset.char = '';
+            span.textContent = ch === ' ' ? ' ' : ch;
+            frag.appendChild(span);
+        }
+        el.appendChild(frag);
+        return $$('.char', el);
+    }
+
+    function splitWords(el) {
+        // On récupère le HTML pour préserver <em>, <strong>, <br>
+        const nodes = Array.from(el.childNodes);
+        el.innerHTML = '';
+
+        const wrap = (text, parent) => {
+            const tokens = text.split(/(\s+)/);
+            tokens.forEach(token => {
+                if (/^\s+$/.test(token)) {
+                    parent.appendChild(document.createTextNode(' '));
+                } else if (token.length) {
+                    const span = document.createElement('span');
+                    span.className = 'word';
+                    span.dataset.word = '';
+                    span.textContent = token;
+                    parent.appendChild(span);
+                }
+            });
+        };
+
+        nodes.forEach(node => {
+            if (node.nodeType === 3) {
+                // Texte brut
+                wrap(node.textContent, el);
+            } else if (node.nodeName === 'BR') {
+                el.appendChild(document.createElement('br'));
+            } else if (node.nodeType === 1) {
+                // élément (em, strong) — on conserve la balise et wrap dedans
+                const clone = node.cloneNode(false);
+                wrap(node.textContent, clone);
+                el.appendChild(clone);
+            }
+        });
+        return $$('[data-word]', el);
+    }
+
+    /* =====================================================
+       3. HERO — entrée séquentielle
+    ===================================================== */
+    function startHero() {
+        $$('.hero-title [data-split]').forEach((row, i) => {
+            const chars = splitChars(row);
+            chars.forEach((c, j) => {
+                c.style.transition = `transform 1s var(--ease-out)`;
+                c.style.transitionDelay = `${i * 0.18 + j * 0.012}s`;
+                requestAnimationFrame(() => {
+                    c.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    }
+
+    /* =====================================================
+       4. CURSEUR PERSONNALISÉ + magnétique
     ===================================================== */
     if (!isTouch) {
         const cursor = $('#cursor');
-        const follower = $('#cursorFollower');
-        let mx = 0, my = 0, fx = 0, fy = 0;
+        const label = $('#cursorLabel');
+        let mx = 0, my = 0, cx = 0, cy = 0;
 
         document.addEventListener('mousemove', (e) => {
             mx = e.clientX;
             my = e.clientY;
-            // Le petit point suit instantanément (translate3d pour GPU)
-            cursor.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
         }, { passive: true });
 
-        // Le grand cercle suit avec interpolation (effet "traîne")
-        const followLoop = () => {
-            fx = lerp(fx, mx, 0.18);
-            fy = lerp(fy, my, 0.18);
-            follower.style.transform = `translate3d(${fx}px, ${fy}px, 0) translate(-50%, -50%)`;
-            requestAnimationFrame(followLoop);
+        const loop = () => {
+            cx = lerp(cx, mx, 0.22);
+            cy = lerp(cy, my, 0.22);
+            cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
+            requestAnimationFrame(loop);
         };
-        followLoop();
+        loop();
 
-        // États hover sur tous les éléments interactifs
-        const hoverTargets = 'a, button, .service-card, input, textarea, select, label, .form-check';
+        // Cible avec data-cursor : on affiche le label
+        const interactive = 'a, button, [data-cursor]';
         document.addEventListener('mouseover', (e) => {
-            if (e.target.closest(hoverTargets)) {
-                cursor.classList.add('hover');
-                follower.classList.add('hover');
+            const target = e.target.closest(interactive);
+            if (target) {
+                cursor.classList.add('active');
+                const lbl = target.dataset.cursor;
+                if (lbl) label.textContent = lbl;
+                else label.textContent = '';
             }
         });
         document.addEventListener('mouseout', (e) => {
-            if (e.target.closest(hoverTargets)) {
-                cursor.classList.remove('hover');
-                follower.classList.remove('hover');
+            if (e.target.closest(interactive)) {
+                cursor.classList.remove('active');
+                label.textContent = '';
             }
         });
     }
 
     /* =====================================================
-       3. NAVBAR — état sticky + menu mobile
+       5. NAVBAR
     ===================================================== */
-    const navbar = $('#navbar');
-    const navToggle = $('#navToggle');
-    const navMenu = $('#navMenu');
+    const nav = $('#nav');
+    const burger = $('#navBurger');
+    const navList = $('#navList');
 
-    const onScrollNav = () => {
-        if (window.scrollY > 60) navbar.classList.add('scrolled');
-        else navbar.classList.remove('scrolled');
+    const onNavScroll = () => {
+        nav.classList.toggle('scrolled', window.scrollY > 80);
     };
-    onScrollNav();
-    window.addEventListener('scroll', onScrollNav, { passive: true });
+    onNavScroll();
+    window.addEventListener('scroll', onNavScroll, { passive: true });
 
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('open');
-        navMenu.classList.toggle('open');
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('open');
+        navList.classList.toggle('open');
     });
 
-    // Fermer le menu mobile au clic sur un lien
-    $$('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            navToggle.classList.remove('open');
-            navMenu.classList.remove('open');
+    $$('.nav-link, .nav-cta').forEach(a => {
+        a.addEventListener('click', () => {
+            burger.classList.remove('open');
+            navList.classList.remove('open');
         });
     });
 
     /* =====================================================
-       4. HERO — animations d'entrée
+       6. REVEAL AU SCROLL (mots, sections)
     ===================================================== */
-    function startHeroAnimations() {
-        // Lignes du titre qui montent
-        $$('.title-line').forEach(line => line.classList.add('in'));
+    // Préparer les éléments [data-split-words]
+    $$('[data-split-words]').forEach(el => splitWords(el));
 
-        // Typewriter sur le sous-titre
-        startTypewriter();
-    }
-
-    function startTypewriter() {
-        if (reducedMotion) {
-            $('#typewriter').textContent = 'Entretien intérieur et extérieur de haut niveau, pour les professionnels et les particuliers exigeants de Suisse romande.';
-            $('#typewriter').classList.add('done');
-            return;
-        }
-        const text = 'Entretien intérieur et extérieur de haut niveau, pour les professionnels et les particuliers exigeants de Suisse romande.';
-        const el = $('#typewriter');
-        let i = 0;
-        const speed = 28;
-
-        setTimeout(() => {
-            const tick = () => {
-                if (i <= text.length) {
-                    el.textContent = text.slice(0, i);
-                    i++;
-                    setTimeout(tick, speed);
-                } else {
-                    el.classList.add('done');
-                }
-            };
-            tick();
-        }, 1200);
-    }
-
-    /* =====================================================
-       5. RÉVÉLATION AU SCROLL (IntersectionObserver)
-    ===================================================== */
-    const revealObserver = new IntersectionObserver((entries) => {
+    const wordObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('in');
-                revealObserver.unobserve(entry.target);
+                $$('.word', entry.target).forEach((w, i) => {
+                    w.style.transitionDelay = `${i * 0.045}s`;
+                });
+                wordObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0.25 });
 
-    $$('.reveal').forEach(el => revealObserver.observe(el));
+    $$('[data-split-words]').forEach(el => wordObserver.observe(el));
+
+    // Reveal générique des sections (fade up subtil)
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                sectionObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    $$('.manifesto, .expertises, .approach, .figures, .testimonials, .quote-block, .contact').forEach(s => sectionObserver.observe(s));
 
     /* =====================================================
-       6. PARALLAX (GSAP ScrollTrigger si dispo, sinon RAF)
+       7. PARALLAX (GSAP si dispo, fallback RAF)
     ===================================================== */
     function initParallax() {
         if (window.gsap && window.ScrollTrigger) {
             gsap.registerPlugin(ScrollTrigger);
 
-            // Hero — fond qui descend plus lentement
-            gsap.to('.hero-bg', {
-                yPercent: 30,
+            // Hero image qui descend lentement
+            gsap.to('.hero-img', {
+                yPercent: 18,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: '.hero',
@@ -163,76 +225,64 @@
                 }
             });
 
-            // Hero — contenu qui remonte légèrement
+            // Hero contenu qui remonte légèrement
             gsap.to('.hero-content', {
-                yPercent: -20,
-                opacity: .3,
+                yPercent: -30,
+                opacity: .4,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: '.hero',
                     start: 'top top',
-                    end: 'bottom top',
-                    scrub: true
-                }
-            });
-
-            // Section services — fond parallax
-            gsap.to('.services-parallax', {
-                yPercent: -25,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: '.services',
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: true
-                }
-            });
-
-            // Forme rouge du À propos
-            gsap.to('.about-shape', {
-                yPercent: -15,
-                rotation: 6,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: '.about',
-                    start: 'top bottom',
                     end: 'bottom top',
                     scrub: 1
                 }
             });
 
-        } else {
-            // Fallback léger sans GSAP
-            const heroBg = $('.hero-bg');
-            const servicesBg = $('.services-parallax');
-            let ticking = false;
+            // Image approach qui monte au scroll
+            gsap.to('.visual-frame img', {
+                yPercent: -10,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.approach',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
 
-            const onScroll = () => {
+            // Mot CARDOSO du footer qui s'étire vers le haut
+            gsap.from('.footer-giant span', {
+                yPercent: 40,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.footer',
+                    start: 'top bottom',
+                    end: 'center bottom',
+                    scrub: true
+                }
+            });
+
+        } else {
+            // Fallback léger
+            const heroImg = $('.hero-img');
+            let ticking = false;
+            window.addEventListener('scroll', () => {
                 if (!ticking) {
                     requestAnimationFrame(() => {
                         const y = window.scrollY;
-                        if (heroBg) heroBg.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
-                        if (servicesBg) {
-                            const rect = servicesBg.parentElement.getBoundingClientRect();
-                            const offset = (rect.top - window.innerHeight) * 0.15;
-                            servicesBg.style.transform = `translate3d(0, ${offset}px, 0)`;
-                        }
+                        if (heroImg) heroImg.style.transform = `translate3d(0, ${y * 0.2}px, 0)`;
                         ticking = false;
                     });
                     ticking = true;
                 }
-            };
-            window.addEventListener('scroll', onScroll, { passive: true });
+            }, { passive: true });
         }
     }
 
-    // GSAP arrive en async (defer), on attend qu'il soit prêt
-    window.addEventListener('load', () => {
-        setTimeout(initParallax, 100);
-    });
+    window.addEventListener('load', () => setTimeout(initParallax, 100));
 
     /* =====================================================
-       7. COMPTEURS ANIMÉS
+       8. COMPTEURS ANIMÉS
     ===================================================== */
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -249,120 +299,29 @@
         const target = parseInt(el.dataset.counter, 10);
         const suffix = el.dataset.suffix || '';
         const format = el.dataset.format;
-        const duration = 2000;
+        const duration = 2200;
         const start = performance.now();
 
-        const step = (now) => {
+        const tick = (now) => {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
-            // Easing out cubic
-            const eased = 1 - Math.pow(1 - progress, 3);
+            const eased = 1 - Math.pow(1 - progress, 4);
             const current = Math.floor(target * eased);
 
             let display = current.toString();
             if (format === 'thousands') {
                 display = current.toLocaleString('fr-CH').replace(/,/g, "'");
             }
-
             el.textContent = display + suffix;
 
-            if (progress < 1) requestAnimationFrame(step);
+            if (progress < 1) requestAnimationFrame(tick);
         };
 
-        requestAnimationFrame(step);
+        requestAnimationFrame(tick);
     }
 
     /* =====================================================
-       8. TILT 3D SUR CARTES DE SERVICES
-    ===================================================== */
-    if (!isTouch && !reducedMotion) {
-        $$('[data-tilt]').forEach(card => {
-            const max = 8; // rotation max en degrés
-
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                const rx = -y * max;
-                const ry = x * max;
-                card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1200px) rotateX(0) rotateY(0) translateY(0)';
-            });
-        });
-    }
-
-    /* =====================================================
-       9. PARTICULES DU HERO (canvas)
-    ===================================================== */
-    (function initParticles() {
-        const canvas = $('#particles');
-        if (!canvas || reducedMotion) return;
-        const ctx = canvas.getContext('2d');
-        let w, h, particles = [];
-
-        const resize = () => {
-            w = canvas.width = canvas.offsetWidth * devicePixelRatio;
-            h = canvas.height = canvas.offsetHeight * devicePixelRatio;
-        };
-        resize();
-        window.addEventListener('resize', resize);
-
-        const count = Math.min(60, Math.floor((canvas.offsetWidth * canvas.offsetHeight) / 18000));
-
-        for (let i = 0; i < count; i++) {
-            particles.push({
-                x: Math.random() * w,
-                y: Math.random() * h,
-                r: (Math.random() * 1.6 + 0.4) * devicePixelRatio,
-                vx: (Math.random() - 0.5) * 0.3 * devicePixelRatio,
-                vy: (Math.random() - 0.5) * 0.3 * devicePixelRatio,
-                a: Math.random() * 0.4 + 0.15
-            });
-        }
-
-        const draw = () => {
-            ctx.clearRect(0, 0, w, h);
-
-            // Lignes entre particules proches
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const maxDist = 140 * devicePixelRatio;
-                    if (dist < maxDist) {
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.08 * (1 - dist / maxDist)})`;
-                        ctx.lineWidth = 0.5 * devicePixelRatio;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            // Points
-            particles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 0 || p.x > w) p.vx *= -1;
-                if (p.y < 0 || p.y > h) p.vy *= -1;
-                ctx.fillStyle = `rgba(255, 255, 255, ${p.a})`;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fill();
-            });
-
-            requestAnimationFrame(draw);
-        };
-        draw();
-    })();
-
-    /* =====================================================
-       10. SCROLL DOUX POUR ANCRES
+       9. SCROLL DOUX SUR ANCRES
     ===================================================== */
     $$('a[href^="#"]').forEach(a => {
         a.addEventListener('click', (e) => {
@@ -371,14 +330,14 @@
             const target = $(href);
             if (target) {
                 e.preventDefault();
-                const top = target.getBoundingClientRect().top + window.scrollY - 70;
+                const top = target.getBoundingClientRect().top + window.scrollY - 60;
                 window.scrollTo({ top, behavior: 'smooth' });
             }
         });
     });
 
     /* =====================================================
-       11. FORMULAIRE — soumission AJAX
+       10. FORMULAIRE — soumission AJAX
     ===================================================== */
     const form = $('#contactForm');
     const status = $('#formStatus');
@@ -388,46 +347,44 @@
             e.preventDefault();
             status.classList.remove('show', 'success', 'error');
 
-            // Validation basique côté client
             const data = new FormData(form);
             if (!data.get('name') || !data.get('email') || !data.get('message') || !data.get('consent')) {
-                showStatus('Merci de remplir tous les champs obligatoires.', 'error');
+                showStatus('Merci de remplir tous les champs requis.', 'error');
                 return;
             }
 
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Envoi en cours...</span>';
+            const btn = form.querySelector('.submit');
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="submit-text">Envoi…</span>';
 
             try {
                 const res = await fetch('contact.php', { method: 'POST', body: data });
                 const json = await res.json();
-
                 if (json.success) {
                     showStatus(json.message || 'Merci ! Votre message a bien été envoyé.', 'success');
                     form.reset();
                 } else {
-                    showStatus(json.message || 'Une erreur est survenue. Veuillez réessayer.', 'error');
+                    showStatus(json.message || 'Une erreur est survenue.', 'error');
                 }
-            } catch (err) {
-                showStatus('Erreur de connexion. Vous pouvez nous joindre au 026 322 32 70.', 'error');
+            } catch {
+                showStatus('Erreur de connexion. Joignez-nous au 026 322 32 70.', 'error');
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.innerHTML = original;
             }
         });
     }
 
-    function showStatus(message, type) {
-        status.textContent = message;
+    function showStatus(msg, type) {
+        status.textContent = msg;
         status.classList.remove('success', 'error');
         status.classList.add(type, 'show');
-        setTimeout(() => status.classList.remove('show'), 8000);
+        setTimeout(() => status.classList.remove('show'), 7000);
     }
 
     /* =====================================================
-       12. ANNÉE DYNAMIQUE FOOTER
+       11. ANNÉE DYNAMIQUE
     ===================================================== */
     const yearEl = $('#year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();

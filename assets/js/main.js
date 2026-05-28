@@ -13,26 +13,41 @@
     const isTouch = matchMedia('(hover: none)').matches;
 
     /* =====================================================
-       1. LOADER — barre + compteur (optionnel)
+       1. LOADER — split lettres + barre + compteur
     ===================================================== */
     (function loader() {
         const el = $('#loader');
         const count = $('#loaderCount');
         const fill = $('.loader-fill');
-        // Si pas de loader (landing pages) : on lance directement le hero
+        // Pas de loader (landing pages) : on lance le hero directement
         if (!el || !count || !fill) {
             document.body.classList.add('loaded');
             startHero();
             return;
         }
-        let n = 0;
-        const total = 1600;
+
+        // 1. Split de chaque ligne en lettres individuelles
+        $$('.brand-line', el).forEach((line, lineIdx) => {
+            const text = line.textContent;
+            line.textContent = '';
+            [...text].forEach((ch, i) => {
+                const span = document.createElement('span');
+                span.className = 'brand-letter';
+                // décalage de la 2e ligne pour cascade entre lignes
+                span.style.animationDelay = `${(lineIdx * 0.18) + (i * 0.035)}s`;
+                span.textContent = ch === ' ' ? ' ' : ch;
+                line.appendChild(span);
+            });
+        });
+
+        // 2. Animation du compteur et de la barre (2.4s total)
+        const total = 2400;
         const start = performance.now();
 
         const tick = (now) => {
             const elapsed = now - start;
             const progress = Math.min(elapsed / total, 1);
-            n = Math.floor(progress * 100);
+            const n = Math.floor(progress * 100);
             count.textContent = String(n).padStart(2, '0');
             fill.style.width = (progress * 100) + '%';
             if (progress < 1) requestAnimationFrame(tick);
@@ -40,7 +55,7 @@
                 el.classList.add('hidden');
                 document.body.classList.add('loaded');
                 startHero();
-            }, 280);
+            }, 320);
         };
         requestAnimationFrame(tick);
     })();

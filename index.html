@@ -3,18 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cardoso Nettoyages Sàrl — Entretien intérieur et extérieur de référence à Fribourg. 18 ans d'expertise, rigueur, professionnalisme et discrétion.">
-    <meta name="theme-color" content="#f3f0e8">
-    <title>Cardoso Nettoyages — Entretien d'exception à Fribourg</title>
 
+    <!-- =========================================================
+         SEO PRIMAIRE
+    ========================================================= -->
+    <title>Cardoso Nettoyages — Entreprise de nettoyage à Fribourg</title>
+    <meta name="description" content="Entreprise de nettoyage à Fribourg depuis 2008. Contrats d'entretien, fin de chantier, conciergerie pour bureaux, régies et particuliers en Suisse romande. Devis gratuit.">
+    <meta name="keywords" content="nettoyage Fribourg, entreprise nettoyage Villars-sur-Glâne, contrat entretien Fribourg, nettoyage fin de chantier, conciergerie immobilière Fribourg, nettoyage vitres, ménage à domicile, nettoyage bureaux Suisse romande">
+    <meta name="author" content="Cardoso Nettoyages Sàrl">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="language" content="French">
+    <link rel="canonical" href="https://www.cardoso-nettoyages.ch/">
+
+    <!-- =========================================================
+         SEO LOCAL — géolocalisation Fribourg
+    ========================================================= -->
+    <meta name="geo.region" content="CH-FR">
+    <meta name="geo.placename" content="Villars-sur-Glâne, Fribourg">
+    <meta name="geo.position" content="46.7867;7.1356">
+    <meta name="ICBM" content="46.7867, 7.1356">
+
+    <!-- =========================================================
+         OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
+    ========================================================= -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.cardoso-nettoyages.ch/">
+    <meta property="og:title" content="Cardoso Nettoyages — Entreprise de nettoyage à Fribourg">
+    <meta property="og:description" content="Entretien intérieur et extérieur de référence à Fribourg. 18 ans d'expertise au service des bureaux, régies et particuliers de Suisse romande.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?auto=format&fit=crop&w=1200&h=630&q=80">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Cardoso Nettoyages — entreprise de nettoyage professionnelle à Fribourg">
+    <meta property="og:locale" content="fr_CH">
+    <meta property="og:site_name" content="Cardoso Nettoyages Sàrl">
+
+    <!-- =========================================================
+         TWITTER CARD
+    ========================================================= -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://www.cardoso-nettoyages.ch/">
+    <meta name="twitter:title" content="Cardoso Nettoyages — Entreprise de nettoyage à Fribourg">
+    <meta name="twitter:description" content="Entretien intérieur et extérieur de référence à Fribourg. 18 ans d'expertise.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?auto=format&fit=crop&w=1200&h=630&q=80">
+
+    <!-- =========================================================
+         FAVICON & APPARENCE
+    ========================================================= -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23b8442c'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='66' font-style='italic' fill='white' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+    <meta name="theme-color" content="#f3f0e8">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- =========================================================
+         PERFORMANCE — preconnect & dns-prefetch
+    ========================================================= -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?auto=format&fit=crop&w=2400&q=80">
 
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+    <!-- =========================================================
+         DONNÉES STRUCTURÉES — Schema.org JSON-LD
+         Améliore le SEO local + rich results Google
+    ========================================================= -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://www.cardoso-nettoyages.ch/#website",
+          "url": "https://www.cardoso-nettoyages.ch/",
+          "name": "Cardoso Nettoyages",
+          "inLanguage": "fr-CH"
+        },
+        {
+          "@type": "CleaningService",
+          "@id": "https://www.cardoso-nettoyages.ch/#business",
+          "name": "Cardoso Nettoyages Sàrl",
+          "alternateName": "Cardoso",
+          "description": "Entreprise de nettoyage professionnelle à Fribourg, spécialisée dans l'entretien de bureaux, le nettoyage de fin de chantier et la conciergerie immobilière.",
+          "image": "https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?auto=format&fit=crop&w=1200&q=80",
+          "url": "https://www.cardoso-nettoyages.ch/",
+          "telephone": "+41263223270",
+          "priceRange": "$$",
+          "currenciesAccepted": "CHF",
+          "paymentAccepted": "Cash, Invoice, Bank Transfer",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Villars-sur-Glâne",
+            "addressRegion": "Fribourg",
+            "postalCode": "1752",
+            "addressCountry": "CH"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 46.7867,
+            "longitude": 7.1356
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "07:30",
+              "closes": "18:00"
+            }
+          ],
+          "areaServed": [
+            { "@type": "City", "name": "Fribourg" },
+            { "@type": "City", "name": "Villars-sur-Glâne" },
+            { "@type": "City", "name": "Bulle" },
+            { "@type": "City", "name": "Marly" },
+            { "@type": "City", "name": "Givisiez" },
+            { "@type": "AdministrativeArea", "name": "Canton de Fribourg" }
+          ],
+          "foundingDate": "2008",
+          "slogan": "L'entretien intérieur et extérieur de référence à Fribourg.",
+          "knowsLanguage": ["fr", "de", "pt"],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Services de nettoyage",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Contrats d'entretien",
+                  "description": "Prestations permanentes ou périodiques pour bureaux, commerces, domicile et vitres.",
+                  "url": "https://www.cardoso-nettoyages.ch/services/contrats-entretien.html"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Fin de chantier & déménagement",
+                  "description": "Nettoyage de fin de chantier, après rénovation, états des lieux entrants et sortants.",
+                  "url": "https://www.cardoso-nettoyages.ch/services/fin-de-chantier.html"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Service de conciergerie",
+                  "description": "Conciergerie d'immeubles pour régies, propriétaires et copropriétés. Petites réparations et dépannage.",
+                  "url": "https://www.cardoso-nettoyages.ch/services/conciergerie.html"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
 
@@ -26,13 +174,19 @@
     </div>
 
     <!-- =====================================================
-         LOADER — éditorial
+         LOADER — grande marque en rouge, animation de chargement
     ===================================================== -->
     <div class="loader" id="loader">
         <div class="loader-inner">
-            <span class="loader-count" id="loaderCount">00</span>
-            <div class="loader-line"><div class="loader-fill"></div></div>
-            <span class="loader-brand">Cardoso&nbsp;Nettoyages</span>
+            <div class="loader-brand" id="loaderBrand" aria-label="Cardoso Nettoyages">
+                <span class="brand-line">Cardoso</span>
+                <span class="brand-line">Nettoyages</span>
+            </div>
+            <div class="loader-meta">
+                <span class="loader-count" id="loaderCount">00</span>
+                <div class="loader-line"><div class="loader-fill"></div></div>
+                <span class="loader-percent">100</span>
+            </div>
         </div>
     </div>
 
@@ -70,7 +224,7 @@
     <header class="hero" id="accueil">
         <!-- Image / vidéo de fond -->
         <div class="hero-media">
-            <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=2400&q=80" alt="Geste de nettoyage professionnel" class="hero-img">
+            <img src="https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?auto=format&fit=crop&w=2400&q=80" alt="Cardoso Nettoyages — entretien professionnel à Fribourg" class="hero-img">
             <div class="hero-tint"></div>
         </div>
 

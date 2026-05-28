@@ -1,0 +1,20 @@
+# Robots.txt — Cardoso Nettoyages Sàrl
+# Toutes les pages publiques sont indexables
+
+User-agent: *
+Allow: /
+Disallow: /contact.log
+Disallow: /assets/images/README.txt
+
+# Bots IA — autorisés (visibilité maximale)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Plan du site
+Sitemap: https://www.cardoso-nettoyages.ch/sitemap.xml

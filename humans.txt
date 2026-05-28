@@ -1,0 +1,10 @@
+/* TEAM */
+    Société : Cardoso Nettoyages Sàrl
+    Localisation : Villars-sur-Glâne, Fribourg, Suisse
+    Téléphone : +41 26 322 32 70
+
+/* SITE */
+    Dernière mise à jour : 2026-05-28
+    Langue : Français
+    Technologies : HTML5, CSS3, JavaScript (vanilla + GSAP), PHP
+    Polices : Fraunces, Inter (Google Fonts)

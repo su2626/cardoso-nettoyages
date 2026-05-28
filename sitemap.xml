@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+    <!-- Accueil -->
+    <url>
+        <loc>https://www.cardoso-nettoyages.ch/</loc>
+        <lastmod>2026-05-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</image:loc>
+            <image:title>Cardoso Nettoyages — Entreprise de nettoyage à Fribourg</image:title>
+        </image:image>
+    </url>
+
+    <!-- Service : Contrats d'entretien -->
+    <url>
+        <loc>https://www.cardoso-nettoyages.ch/services/contrats-entretien.html</loc>
+        <lastmod>2026-05-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</image:loc>
+            <image:title>Contrats d'entretien à Fribourg</image:title>
+        </image:image>
+    </url>
+
+    <!-- Service : Fin de chantier -->
+    <url>
+        <loc>https://www.cardoso-nettoyages.ch/services/fin-de-chantier.html</loc>
+        <lastmod>2026-05-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</image:loc>
+            <image:title>Nettoyage fin de chantier à Fribourg</image:title>
+        </image:image>
+    </url>
+
+    <!-- Service : Conciergerie -->
+    <url>
+        <loc>https://www.cardoso-nettoyages.ch/services/conciergerie.html</loc>
+        <lastmod>2026-05-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</image:loc>
+            <image:title>Service de conciergerie à Fribourg</image:title>
+        </image:image>
+    </url>
+
+</urlset>

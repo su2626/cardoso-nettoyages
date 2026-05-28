@@ -1,6 +1,6 @@
 /* TEAM */
     Société : Cardoso Nettoyages Sàrl
-    Localisation : Villars-sur-Glâne, Fribourg, Suisse
+    Localisation : Rue Saint-Pierre 8, 1700 Fribourg, Suisse
     Téléphone : +41 26 322 32 70
 
 /* SITE */

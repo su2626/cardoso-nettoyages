@@ -1,6 +1,6 @@
 # Cardoso Nettoyages Sàrl
 
-Site vitrine premium pour **Cardoso Nettoyages Sàrl** — entretien intérieur et extérieur à Villars-sur-Glâne (Fribourg, Suisse).
+Site vitrine premium pour **Cardoso Nettoyages Sàrl** — entretien intérieur et extérieur à Fribourg (Rue Saint-Pierre 8) (Fribourg, Suisse).
 
 ## Aperçu
 
@@ -65,7 +65,7 @@ Les images sont actuellement servies par Unsplash. Pour une vraie production :
 
 ### SEO local (très important pour une PME suisse)
 - `geo.region`, `geo.placename`, `geo.position`, `ICBM`
-- Coordonnées Villars-sur-Glâne : `46.7867, 7.1356`
+- Coordonnées Fribourg (Rue Saint-Pierre 8) : `46.8056, 7.1556`
 
 ### Réseaux sociaux
 - Open Graph complet (Facebook, LinkedIn, WhatsApp)
@@ -100,5 +100,5 @@ Les images sont actuellement servies par Unsplash. Pour une vraie production :
 ## Contact
 
 **Cardoso Nettoyages Sàrl**
-Villars-sur-Glâne, Fribourg — Suisse
+Rue Saint-Pierre 8, 1700 Fribourg — Suisse
 📞 026 322 32 70

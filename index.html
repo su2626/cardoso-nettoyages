@@ -9,7 +9,7 @@
     ========================================================= -->
     <title>Cardoso Nettoyages — Entreprise de nettoyage à Fribourg</title>
     <meta name="description" content="Entreprise de nettoyage à Fribourg depuis 2008. Contrats d'entretien, fin de chantier, conciergerie pour bureaux, régies et particuliers en Suisse romande. Devis gratuit.">
-    <meta name="keywords" content="nettoyage Fribourg, entreprise nettoyage Villars-sur-Glâne, contrat entretien Fribourg, nettoyage fin de chantier, conciergerie immobilière Fribourg, nettoyage vitres, ménage à domicile, nettoyage bureaux Suisse romande">
+    <meta name="keywords" content="nettoyage Fribourg, entreprise nettoyage Fribourg, contrat entretien Fribourg, nettoyage fin de chantier, conciergerie immobilière Fribourg, nettoyage vitres, ménage à domicile, nettoyage bureaux Suisse romande">
     <meta name="author" content="Cardoso Nettoyages Sàrl">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <meta name="language" content="French">
@@ -19,9 +19,9 @@
          SEO LOCAL — géolocalisation Fribourg
     ========================================================= -->
     <meta name="geo.region" content="CH-FR">
-    <meta name="geo.placename" content="Villars-sur-Glâne, Fribourg">
-    <meta name="geo.position" content="46.7867;7.1356">
-    <meta name="ICBM" content="46.7867, 7.1356">
+    <meta name="geo.placename" content="Rue Saint-Pierre 8, 1700 Fribourg">
+    <meta name="geo.position" content="46.8056;7.1556">
+    <meta name="ICBM" content="46.8056, 7.1556">
 
     <!-- =========================================================
          OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
@@ -97,15 +97,16 @@
           "paymentAccepted": "Cash, Invoice, Bank Transfer",
           "address": {
             "@type": "PostalAddress",
-            "addressLocality": "Villars-sur-Glâne",
+            "streetAddress": "Rue Saint-Pierre 8",
+            "addressLocality": "Fribourg",
             "addressRegion": "Fribourg",
-            "postalCode": "1752",
+            "postalCode": "1700",
             "addressCountry": "CH"
           },
           "geo": {
             "@type": "GeoCoordinates",
-            "latitude": 46.7867,
-            "longitude": 7.1356
+            "latitude": 46.8056,
+            "longitude": 7.1556
           },
           "openingHoursSpecification": [
             {
@@ -174,34 +175,34 @@
     </div>
 
     <!-- =====================================================
-         LOADER — composition éditoriale moderne
+         LOADER — vague rouge qui monte, brand centré
     ===================================================== -->
-    <div class="loader" id="loader">
-        <!-- Labels en coin (style mise en page éditoriale) -->
-        <span class="loader-corner top-left">
-            <span class="corner-mark">●</span>
-            <span>Cardoso Nettoyages Sàrl</span>
-        </span>
-        <span class="loader-corner top-right">Villars-sur-Glâne ⟶ Fribourg, CH</span>
-
-        <!-- Brand au centre, géant, upright -->
-        <div class="loader-stage" aria-label="Cardoso Nettoyages">
-            <h1 class="loader-brand">
-                <span class="brand-line"><span class="brand-mask">Cardoso</span></span>
-                <span class="brand-line"><span class="brand-mask">Nettoyages</span></span>
-            </h1>
-            <span class="loader-tag">Est. 2008</span>
+    <div class="loader" id="loader" aria-label="Chargement">
+        <!-- Compteur de chargement -->
+        <div class="loader-percent">
+            <span id="loaderCount">0</span><span class="loader-percent-sign">%</span>
         </div>
 
-        <!-- Barre de progression discrète en bas -->
-        <div class="loader-progress">
-            <span class="loader-count" id="loaderCount">00</span>
-            <div class="loader-bar"><div class="loader-fill"></div></div>
-            <span class="loader-label">Loading</span>
+        <!-- Brand centré -->
+        <div class="loader-stage">
+            <h1 class="loader-brand">Cardoso Nettoyage</h1>
         </div>
 
-        <!-- Coin bas-droit : numéro de version / marqueur design -->
-        <span class="loader-corner bottom-right">01 / 24</span>
+        <!-- Vagues SVG superposées qui montent depuis le bas -->
+        <div class="loader-waves" aria-hidden="true">
+            <svg class="wave wave-back" viewBox="0 0 1440 900" preserveAspectRatio="none">
+                <path d="M0,180 C240,80 480,260 720,180 C960,100 1200,260 1440,180 L1440,900 L0,900 Z" fill="#7a2418"/>
+            </svg>
+            <svg class="wave wave-mid" viewBox="0 0 1440 900" preserveAspectRatio="none">
+                <path d="M0,200 C320,60 560,300 800,200 C1040,100 1240,260 1440,200 L1440,900 L0,900 Z" fill="#962A20"/>
+            </svg>
+            <svg class="wave wave-front" viewBox="0 0 1440 900" preserveAspectRatio="none">
+                <path d="M0,220 C240,100 520,320 800,200 C1080,80 1200,280 1440,220 L1440,900 L0,900 Z" fill="#C0392B"/>
+            </svg>
+        </div>
+
+        <!-- Élément requis par le JS (invisible) -->
+        <div class="loader-fill" aria-hidden="true"></div>
     </div>
 
     <!-- =====================================================
@@ -249,7 +250,7 @@
 
         <div class="hero-content">
             <span class="hero-eyebrow">
-                <span class="dot"></span>Depuis 2008 — Villars-sur-Glâne, Fribourg
+                <span class="dot"></span>Depuis 2008 — Rue Saint-Pierre 8, 1700 Fribourg
             </span>
 
             <h1 class="hero-title">
@@ -307,7 +308,7 @@
                 </div>
                 <div class="meta-block">
                     <span class="meta-key">Basés à</span>
-                    <span class="meta-val">Villars-sur-Glâne (FR)</span>
+                    <span class="meta-val">Fribourg (FR)</span>
                 </div>
                 <div class="meta-block">
                     <span class="meta-key">Spécialités</span>
@@ -584,7 +585,7 @@
                     </li>
                     <li>
                         <span class="meta-key">Adresse</span>
-                        <span class="meta-val">Villars-sur-Glâne<br>Fribourg, Suisse</span>
+                        <span class="meta-val">Rue Saint-Pierre 8<br>1700 Fribourg, Suisse</span>
                     </li>
                     <li>
                         <span class="meta-key">Horaires</span>
@@ -679,8 +680,9 @@
             <div class="footer-col">
                 <h4>Contact</h4>
                 <ul>
-                    <li>Villars-sur-Glâne</li>
-                    <li>Fribourg, Suisse</li>
+                    <li>Rue Saint-Pierre 8</li>
+                    <li>1700 Fribourg, Suisse</li>
+                    
                     <li><a href="tel:+41263223270">026 322 32 70</a></li>
                 </ul>
             </div>

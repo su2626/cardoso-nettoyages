@@ -13,21 +13,21 @@
     const isTouch = matchMedia('(hover: none)').matches;
 
     /* =====================================================
-       1. LOADER — compteur + barre (motion confiée au CSS)
+       1. LOADER — compteur 0 à 100, vagues animées en CSS
     ===================================================== */
     (function loader() {
         const el = $('#loader');
         const count = $('#loaderCount');
-        const fill = $('.loader-fill');
+        const fill = $('.loader-fill'); // optionnel
         // Pas de loader (landing pages) : on lance le hero directement
-        if (!el || !count || !fill) {
+        if (!el || !count) {
             document.body.classList.add('loaded');
             startHero();
             return;
         }
 
-        // Animation : easeOutCubic pour un atterrissage en douceur
-        const total = 2100;
+        // Synchronisé avec l'animation des vagues : 2.8s + délai
+        const total = 2800;
         const start = performance.now();
         const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
 
@@ -36,14 +36,14 @@
             const progress = Math.min(elapsed / total, 1);
             const eased = easeOutCubic(progress);
             const n = Math.floor(eased * 100);
-            count.textContent = String(n).padStart(2, '0');
-            fill.style.width = (eased * 100) + '%';
+            count.textContent = n;
+            if (fill) fill.style.width = (eased * 100) + '%';
             if (progress < 1) requestAnimationFrame(tick);
             else setTimeout(() => {
                 el.classList.add('hidden');
                 document.body.classList.add('loaded');
                 startHero();
-            }, 380);
+            }, 320);
         };
         requestAnimationFrame(tick);
     })();

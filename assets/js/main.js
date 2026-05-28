@@ -13,12 +13,18 @@
     const isTouch = matchMedia('(hover: none)').matches;
 
     /* =====================================================
-       1. LOADER — barre + compteur
+       1. LOADER — barre + compteur (optionnel)
     ===================================================== */
     (function loader() {
         const el = $('#loader');
         const count = $('#loaderCount');
         const fill = $('.loader-fill');
+        // Si pas de loader (landing pages) : on lance directement le hero
+        if (!el || !count || !fill) {
+            document.body.classList.add('loaded');
+            startHero();
+            return;
+        }
         let n = 0;
         const total = 1600;
         const start = performance.now();
@@ -162,17 +168,19 @@
     onNavScroll();
     window.addEventListener('scroll', onNavScroll, { passive: true });
 
-    burger.addEventListener('click', () => {
-        burger.classList.toggle('open');
-        navList.classList.toggle('open');
-    });
-
-    $$('.nav-link, .nav-cta').forEach(a => {
-        a.addEventListener('click', () => {
-            burger.classList.remove('open');
-            navList.classList.remove('open');
+    if (burger && navList) {
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('open');
+            navList.classList.toggle('open');
         });
-    });
+
+        $$('.nav-link, .nav-cta').forEach(a => {
+            a.addEventListener('click', () => {
+                burger.classList.remove('open');
+                navList.classList.remove('open');
+            });
+        });
+    }
 
     /* =====================================================
        6. REVEAL AU SCROLL (mots, sections)

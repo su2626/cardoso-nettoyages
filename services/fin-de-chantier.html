@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nettoyage fin de chantier et après déménagement à Fribourg — architectes, rénovations, états des lieux, remise des clés. Cardoso Nettoyages.">
+    <meta name="theme-color" content="#f3f0e8">
+    <title>Fin de chantier &amp; déménagement — Cardoso Nettoyages</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+</head>
+<body class="loaded">
+
+    <div class="cursor" id="cursor">
+        <span class="cursor-label" id="cursorLabel"></span>
+    </div>
+
+    <nav class="nav scrolled" id="nav">
+        <div class="nav-inner">
+            <a href="../" class="nav-brand">
+                <span class="brand-dot"></span>
+                <span class="brand-name">Cardoso<em>Nettoyages</em></span>
+            </a>
+            <ul class="nav-list" id="navList">
+                <li><a href="../#manifeste" class="nav-link">Manifeste</a></li>
+                <li><a href="../#expertises" class="nav-link">Expertises</a></li>
+                <li><a href="../#approche" class="nav-link">Approche</a></li>
+                <li><a href="../#temoignages" class="nav-link">Avis</a></li>
+            </ul>
+            <a href="../#contact" class="nav-cta" data-cursor="écrire">
+                <span>Nous contacter</span>
+                <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <button class="nav-burger" id="navBurger" aria-label="Menu">
+                <span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="svc-page">
+
+        <header class="svc-hero">
+            <div class="container">
+                <a href="../#expertises" class="svc-back" data-cursor="retour">
+                    <svg viewBox="0 0 24 24" width="14" height="14"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>Tous les services</span>
+                </a>
+                <span class="svc-num">— Service / 02</span>
+                <h1 class="svc-title">
+                    Fin de chantier<br>
+                    <em>&amp; déménagement.</em>
+                </h1>
+                <p class="svc-lead">
+                    Du gros œuvre au moindre détail. Quand le chantier se termine ou que les cartons s'en vont, nous transformons les lieux en bijou — prêts pour la remise des clés.
+                </p>
+                <div class="svc-img">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=2000&q=80" alt="Chantier nettoyé">
+                </div>
+            </div>
+        </header>
+
+        <section class="svc-intro">
+            <div class="container">
+                <span class="section-num">— Approche</span>
+                <p class="svc-text" data-split-words>
+                    Le moment de <em>vérité</em> d'un projet immobilier, c'est la propreté. Nous le savons. Nous le respectons.
+                </p>
+            </div>
+        </section>
+
+        <section class="svc-includes">
+            <div class="container">
+                <span class="section-num">— Inclusions</span>
+                <h2 class="section-title">
+                    Ce que nous<br>
+                    <em>prenons en charge.</em>
+                </h2>
+
+                <div class="includes-grid">
+                    <article class="include-card">
+                        <h3>Architectes &amp; constructeurs</h3>
+                        <ul>
+                            <li>Nettoyage de fin de chantier complet</li>
+                            <li>Décollage de pellicules et protections</li>
+                            <li>Lavage haute pression des extérieurs</li>
+                            <li>Aspiration des poussières fines</li>
+                            <li>Coordination avec les autres corps de métier</li>
+                        </ul>
+                    </article>
+
+                    <article class="include-card">
+                        <h3>Rénovation</h3>
+                        <ul>
+                            <li>Nettoyage après travaux partiels</li>
+                            <li>Élimination des traces de plâtre, peinture</li>
+                            <li>Dégraissage cuisines et salles de bains</li>
+                            <li>Désinfection complète des surfaces</li>
+                            <li>Mise en propreté avant emménagement</li>
+                        </ul>
+                    </article>
+
+                    <article class="include-card">
+                        <h3>États des lieux</h3>
+                        <ul>
+                            <li>Nettoyage entrant et sortant</li>
+                            <li>Remise en état pour propriétaires</li>
+                            <li>Documentation photographique avant/après</li>
+                            <li>Garantie de validation par la régie</li>
+                            <li>Délais courts — souvent 24 à 48 h</li>
+                        </ul>
+                    </article>
+
+                    <article class="include-card">
+                        <h3>Extérieurs &amp; façades</h3>
+                        <ul>
+                            <li>Nettoyage haute pression terrasses</li>
+                            <li>Façades, balcons et garde-corps</li>
+                            <li>Mobilier extérieur et stores</li>
+                            <li>Évacuation des gravats et déchets</li>
+                            <li>Décollage de mousses et lichens</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="svc-process">
+            <div class="container">
+                <span class="section-num light">— Méthode</span>
+                <h2 class="section-title light">
+                    Notre<br>
+                    <em>méthode.</em>
+                </h2>
+
+                <ol class="process-steps">
+                    <li>
+                        <span class="process-num">/01</span>
+                        <h3>Visite de chantier</h3>
+                        <p>Nous nous rendons sur place pour évaluer l'ampleur, identifier les matériaux délicats et anticiper les besoins en équipement.</p>
+                    </li>
+                    <li>
+                        <span class="process-num">/02</span>
+                        <h3>Devis ferme</h3>
+                        <p>Devis chiffré et délais garantis, transmis sous 48 h. Aucun coût caché, pas de mauvaise surprise.</p>
+                    </li>
+                    <li>
+                        <span class="process-num">/03</span>
+                        <h3>Intervention</h3>
+                        <p>Équipe dédiée, équipement adapté (nacelles, monobrosses, machines vapeur), exécution en continu jusqu'à perfection.</p>
+                    </li>
+                    <li>
+                        <span class="process-num">/04</span>
+                        <h3>Vérification finale</h3>
+                        <p>Contrôle qualité pièce par pièce avec le responsable de chantier ou le client. Reprises immédiates si nécessaire.</p>
+                    </li>
+                    <li>
+                        <span class="process-num">/05</span>
+                        <h3>Livraison</h3>
+                        <p>Remise des clés à votre régie, votre client ou vous. Documentation photo si vous en avez besoin pour vos dossiers.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="svc-cta">
+            <div class="container">
+                <h2 class="section-title">
+                    Discutons<br>
+                    de votre <em>chantier.</em>
+                </h2>
+                <a href="../#contact" class="link-arrow" data-cursor="écrire">
+                    <span>Demander un devis</span>
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <section class="svc-others">
+            <div class="container">
+                <h3>Autres expertises</h3>
+                <div class="others-grid">
+                    <a href="contrats-entretien.html" class="other-card" data-cursor="découvrir">
+                        <span class="num">/01</span>
+                        <h4>Contrats<br>d'entretien</h4>
+                        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="conciergerie.html" class="other-card" data-cursor="découvrir">
+                        <span class="num">/03</span>
+                        <h4>Service<br>de conciergerie</h4>
+                        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-giant">
+            <span>CARDOSO</span>
+        </div>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="../">Accueil</a></li>
+                    <li><a href="../#manifeste">Manifeste</a></li>
+                    <li><a href="../#expertises">Expertises</a></li>
+                    <li><a href="../#approche">Approche</a></li>
+                    <li><a href="../#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="contrats-entretien.html">Contrats d'entretien</a></li>
+                    <li><a href="fin-de-chantier.html">Fin de chantier</a></li>
+                    <li><a href="conciergerie.html">Conciergerie</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Villars-sur-Glâne</li>
+                    <li>Fribourg, Suisse</li>
+                    <li><a href="tel:+41263223270">026 322 32 70</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Suivez-nous</h4>
+                <ul class="socials">
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-base">
+            <div class="container">
+                <span>© <span id="year"></span> — Cardoso Nettoyages Sàrl</span>
+                <span class="footer-emoji">✿</span>
+                <span>Conception &amp; développement — un site fait avec soin</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js" defer></script>
+</body>
+</html>

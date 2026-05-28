@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cardoso Nettoyages Sàrl - Entretien intérieur et extérieur à Villars-sur-Glâne, Fribourg. 18 ans d'expertise, rigueur, professionnalisme et discrétion.">
+    <meta name="keywords" content="nettoyage, entretien, Fribourg, Villars-sur-Glâne, conciergerie, fin de chantier, bureaux, vitres">
+    <title>Cardoso Nettoyages Sàrl — Entretien professionnel à Fribourg</title>
+
+    <!-- Préchargement des polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Feuille de style principale -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Bibliothèques d'animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js" defer></script>
+</head>
+<body>
+
+    <!-- =====================================================
+         CURSEUR PERSONNALISÉ
+    ===================================================== -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <!-- =====================================================
+         LOADER
+    ===================================================== -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <span class="loader-text">CARDOSO</span>
+            <div class="loader-bar"><div class="loader-fill"></div></div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         NAVIGATION
+    ===================================================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-mark">C</span>
+                <span class="logo-text">Cardoso<small>Nettoyages Sàrl</small></span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#accueil" class="nav-link">Accueil</a></li>
+                <li><a href="#apropos" class="nav-link">À propos</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#chiffres" class="nav-link">Chiffres</a></li>
+                <li><a href="#contact" class="nav-link nav-cta">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- =====================================================
+         HERO — Section d'accueil
+    ===================================================== -->
+    <section class="hero" id="accueil">
+        <!-- Couches de parallax -->
+        <div class="hero-bg" data-speed="0.4"></div>
+        <div class="hero-overlay"></div>
+
+        <!-- Canvas particules -->
+        <canvas class="hero-particles" id="particles"></canvas>
+
+        <!-- Lumière ambiante -->
+        <div class="hero-glow"></div>
+
+        <div class="hero-content">
+            <span class="hero-badge" data-aos="fade-down">
+                <span class="badge-dot"></span>18 ans d'expertise en Suisse romande
+            </span>
+            <h1 class="hero-title">
+                <span class="title-line" data-line="1">La propreté</span>
+                <span class="title-line accent" data-line="2">comme signature.</span>
+            </h1>
+            <p class="hero-subtitle" id="typewriter"></p>
+            <div class="hero-actions">
+                <a href="#services" class="btn btn-primary">
+                    <span>Découvrir nos services</span>
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="tel:+41263223270" class="btn btn-ghost">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92Z"/></svg>
+                    <span>026 322 32 70</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Indicateur de scroll -->
+        <div class="scroll-indicator">
+            <span>Défiler</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Vague séparatrice -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L0,120Z" fill="#ffffff"/>
+        </svg>
+    </div>
+
+    <!-- =====================================================
+         À PROPOS
+    ===================================================== -->
+    <section class="about" id="apropos">
+        <div class="container about-grid">
+            <div class="about-visual reveal" data-reveal="left">
+                <div class="about-image"></div>
+                <div class="about-badge">
+                    <strong>18</strong>
+                    <span>années<br>d'expertise</span>
+                </div>
+                <div class="about-shape"></div>
+            </div>
+
+            <div class="about-text">
+                <span class="eyebrow reveal" data-reveal="up">Qui sommes-nous</span>
+                <h2 class="section-title reveal" data-reveal="up">
+                    Une exigence qui se voit, <span class="text-accent">une discrétion qui rassure.</span>
+                </h2>
+                <p class="reveal" data-reveal="up">
+                    Depuis bientôt deux décennies, <strong>Cardoso Nettoyages Sàrl</strong> accompagne entreprises, régies et particuliers de Fribourg et de toute la Suisse romande. Notre approche repose sur quatre piliers indissociables : la rigueur de nos méthodes, le professionnalisme de nos équipes, et la discrétion absolue dont nous faisons preuve à chaque intervention.
+                </p>
+
+                <ul class="features">
+                    <li class="reveal" data-reveal="up">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div>
+                            <h3>Rigueur</h3>
+                            <p>Des protocoles précis, un contrôle qualité systématique.</p>
+                        </div>
+                    </li>
+                    <li class="reveal" data-reveal="up">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div>
+                            <h3>Professionnalisme</h3>
+                            <p>Personnel formé, assuré et équipé selon les standards suisses.</p>
+                        </div>
+                    </li>
+                    <li class="reveal" data-reveal="up">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                        </div>
+                        <div>
+                            <h3>Discrétion</h3>
+                            <p>Respect total de votre intimité et de la confidentialité.</p>
+                        </div>
+                    </li>
+                    <li class="reveal" data-reveal="up">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 1v6m0 6v6m11-11h-6m-6 0H1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        </div>
+                        <div>
+                            <h3>Engagement</h3>
+                            <p>Une relation durable bâtie sur la confiance et la régularité.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         SERVICES
+    ===================================================== -->
+    <section class="services" id="services">
+        <!-- Parallax background -->
+        <div class="services-parallax" data-parallax></div>
+        <div class="services-veil"></div>
+
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow light reveal" data-reveal="up">Nos prestations</span>
+                <h2 class="section-title light reveal" data-reveal="up">
+                    Trois métiers, <span class="text-accent">une seule exigence.</span>
+                </h2>
+                <p class="section-lead reveal" data-reveal="up">
+                    Du contrat d'entretien régulier au nettoyage de remise des clés, nous adaptons notre savoir-faire à votre réalité.
+                </p>
+            </div>
+
+            <div class="services-grid">
+
+                <!-- Service 1 -->
+                <article class="service-card reveal" data-reveal="up" data-tilt>
+                    <div class="card-inner">
+                        <div class="card-number">01</div>
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M9 22V12h6v10" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3>Contrats d'entretien</h3>
+                        <p class="card-lead">Prestations permanentes ou périodiques, calibrées à votre rythme.</p>
+                        <ul class="card-list">
+                            <li>Bureaux administratifs &amp; commerciaux</li>
+                            <li>Ménage à domicile sur mesure</li>
+                            <li>Entretien des vitres &amp; surfaces vitrées</li>
+                            <li>Nettoyage des communs &amp; cages d'escalier</li>
+                        </ul>
+                        <a href="#contact" class="card-link">Demander un devis →</a>
+                    </div>
+                </article>
+
+                <!-- Service 2 -->
+                <article class="service-card featured reveal" data-reveal="up" data-tilt>
+                    <div class="card-inner">
+                        <div class="card-number">02</div>
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M2 22h20M4 22V10l8-6 8 6v12M9 22v-8h6v8" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg>
+                        </div>
+                        <h3>Fin de chantier &amp; déménagement</h3>
+                        <p class="card-lead">Une remise des clés impeccable, du gros œuvre au moindre détail.</p>
+                        <ul class="card-list">
+                            <li>Architectes &amp; entreprises de construction</li>
+                            <li>Rénovation complète ou partielle</li>
+                            <li>États des lieux entrant &amp; sortant</li>
+                            <li>Nettoyage haute pression extérieur</li>
+                        </ul>
+                        <a href="#contact" class="card-link">Demander un devis →</a>
+                    </div>
+                </article>
+
+                <!-- Service 3 -->
+                <article class="service-card reveal" data-reveal="up" data-tilt>
+                    <div class="card-inner">
+                        <div class="card-number">03</div>
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                        </div>
+                        <h3>Service de conciergerie</h3>
+                        <p class="card-lead">Le partenaire de confiance des régies et propriétaires.</p>
+                        <ul class="card-list">
+                            <li>Agences immobilières &amp; régies</li>
+                            <li>Petites réparations &amp; remise en état</li>
+                            <li>Dépannages d'urgence</li>
+                            <li>Suivi technique des immeubles</li>
+                        </ul>
+                        <a href="#contact" class="card-link">Demander un devis →</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Vague séparatrice -->
+    <div class="wave-divider flip">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L0,120Z" fill="#0e0e10"/>
+        </svg>
+    </div>
+
+    <!-- =====================================================
+         CHIFFRES CLÉS
+    ===================================================== -->
+    <section class="stats" id="chiffres">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat reveal" data-reveal="up">
+                    <span class="stat-value" data-counter="18" data-suffix="">0</span>
+                    <span class="stat-label">Années d'expérience</span>
+                </div>
+                <div class="stat reveal" data-reveal="up">
+                    <span class="stat-value" data-counter="350" data-suffix="+">0</span>
+                    <span class="stat-label">Clients fidélisés</span>
+                </div>
+                <div class="stat reveal" data-reveal="up">
+                    <span class="stat-value" data-counter="1200000" data-suffix=" m²" data-format="thousands">0</span>
+                    <span class="stat-label">Surfaces entretenues</span>
+                </div>
+                <div class="stat reveal" data-reveal="up">
+                    <span class="stat-value" data-counter="24" data-suffix="/7">0</span>
+                    <span class="stat-label">Disponibilité d'urgence</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         CITATION
+    ===================================================== -->
+    <section class="quote-section">
+        <div class="container">
+            <blockquote class="quote reveal" data-reveal="up">
+                <svg class="quote-mark" viewBox="0 0 24 24"><path fill="currentColor" d="M9 7H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v1c0 1.1-.9 2-2 2H4v2h1c2.21 0 4-1.79 4-4V7zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v1c0 1.1-.9 2-2 2h-1v2h1c2.21 0 4-1.79 4-4V7z"/></svg>
+                <p>« La propreté n'est pas un détail, c'est la première impression que vous laissez. Nous en faisons notre métier depuis 18 ans. »</p>
+                <cite>— L'équipe Cardoso Nettoyages</cite>
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         CONTACT
+    ===================================================== -->
+    <section class="contact" id="contact">
+        <div class="container contact-grid">
+
+            <div class="contact-info">
+                <span class="eyebrow reveal" data-reveal="up">Contact</span>
+                <h2 class="section-title reveal" data-reveal="up">
+                    Parlons de votre <span class="text-accent">projet.</span>
+                </h2>
+                <p class="reveal" data-reveal="up">
+                    Devis gratuit, sans engagement. Nous vous répondons sous 24 heures ouvrées.
+                </p>
+
+                <ul class="contact-list">
+                    <li class="reveal" data-reveal="up">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92Z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div>
+                            <span class="contact-label">Téléphone</span>
+                            <a href="tel:+41263223270" class="contact-value">026 322 32 70</a>
+                        </div>
+                    </li>
+                    <li class="reveal" data-reveal="up">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                        </div>
+                        <div>
+                            <span class="contact-label">Adresse</span>
+                            <span class="contact-value">Villars-sur-Glâne<br>Fribourg, Suisse</span>
+                        </div>
+                    </li>
+                    <li class="reveal" data-reveal="up">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div>
+                            <span class="contact-label">Horaires</span>
+                            <span class="contact-value">Lun – Ven : 7h30 – 18h<br>Urgences : 24/7</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <form class="contact-form reveal" data-reveal="up" action="contact.php" method="POST" id="contactForm" novalidate>
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" required>
+                        <label for="name">Nom complet</label>
+                        <span class="form-line"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email">Adresse e-mail</label>
+                        <span class="form-line"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone">
+                        <label for="phone">Téléphone</label>
+                        <span class="form-line"></span>
+                    </div>
+                    <div class="form-group">
+                        <select id="subject" name="subject" required>
+                            <option value="" disabled selected></option>
+                            <option value="entretien">Contrat d'entretien</option>
+                            <option value="chantier">Fin de chantier / déménagement</option>
+                            <option value="conciergerie">Conciergerie</option>
+                            <option value="autre">Autre demande</option>
+                        </select>
+                        <label for="subject">Type de demande</label>
+                        <span class="form-line"></span>
+                    </div>
+                </div>
+                <div class="form-group full">
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                    <label for="message">Votre message</label>
+                    <span class="form-line"></span>
+                </div>
+
+                <label class="form-check">
+                    <input type="checkbox" name="consent" required>
+                    <span class="check-box"></span>
+                    <span>J'accepte que mes données soient utilisées pour répondre à ma demande.</span>
+                </label>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span>Envoyer ma demande</span>
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+
+                <div class="form-status" id="formStatus"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="nav-logo">
+                    <span class="logo-mark">C</span>
+                    <span class="logo-text">Cardoso<small>Nettoyages Sàrl</small></span>
+                </a>
+                <p>L'entretien intérieur et extérieur de référence à Fribourg depuis 18 ans.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#apropos">À propos</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li>Contrats d'entretien</li>
+                    <li>Fin de chantier</li>
+                    <li>Conciergerie</li>
+                    <li>Nettoyage de vitres</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Villars-sur-Glâne</li>
+                    <li>Fribourg, Suisse</li>
+                    <li><a href="tel:+41263223270">026 322 32 70</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© <span id="year"></span> Cardoso Nettoyages Sàrl — Tous droits réservés.</p>
+                <p>Conception &amp; développement web premium</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script principal -->
+    <script src="assets/js/main.js" defer></script>
+</body>
+</html>

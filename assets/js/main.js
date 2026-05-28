@@ -13,7 +13,7 @@
     const isTouch = matchMedia('(hover: none)').matches;
 
     /* =====================================================
-       1. LOADER — split lettres + barre + compteur
+       1. LOADER — compteur + barre (motion confiée au CSS)
     ===================================================== */
     (function loader() {
         const el = $('#loader');
@@ -26,36 +26,24 @@
             return;
         }
 
-        // 1. Split de chaque ligne en lettres individuelles
-        $$('.brand-line', el).forEach((line, lineIdx) => {
-            const text = line.textContent;
-            line.textContent = '';
-            [...text].forEach((ch, i) => {
-                const span = document.createElement('span');
-                span.className = 'brand-letter';
-                // décalage de la 2e ligne pour cascade entre lignes
-                span.style.animationDelay = `${(lineIdx * 0.18) + (i * 0.035)}s`;
-                span.textContent = ch === ' ' ? ' ' : ch;
-                line.appendChild(span);
-            });
-        });
-
-        // 2. Animation du compteur et de la barre (2.4s total)
-        const total = 2400;
+        // Animation : easeOutCubic pour un atterrissage en douceur
+        const total = 2100;
         const start = performance.now();
+        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
 
         const tick = (now) => {
             const elapsed = now - start;
             const progress = Math.min(elapsed / total, 1);
-            const n = Math.floor(progress * 100);
+            const eased = easeOutCubic(progress);
+            const n = Math.floor(eased * 100);
             count.textContent = String(n).padStart(2, '0');
-            fill.style.width = (progress * 100) + '%';
+            fill.style.width = (eased * 100) + '%';
             if (progress < 1) requestAnimationFrame(tick);
             else setTimeout(() => {
                 el.classList.add('hidden');
                 document.body.classList.add('loaded');
                 startHero();
-            }, 320);
+            }, 380);
         };
         requestAnimationFrame(tick);
     })();
@@ -71,7 +59,7 @@
             const span = document.createElement('span');
             span.className = 'char';
             span.dataset.char = '';
-            span.textContent = ch === ' ' ? ' ' : ch;
+            span.textContent = ch === ' ' ? ' ' : ch;
             frag.appendChild(span);
         }
         el.appendChild(frag);

@@ -174,20 +174,34 @@
     </div>
 
     <!-- =====================================================
-         LOADER — grande marque en rouge, animation de chargement
+         LOADER — composition éditoriale moderne
     ===================================================== -->
     <div class="loader" id="loader">
-        <div class="loader-inner">
-            <div class="loader-brand" id="loaderBrand" aria-label="Cardoso Nettoyages">
-                <span class="brand-line">Cardoso</span>
-                <span class="brand-line">Nettoyages</span>
-            </div>
-            <div class="loader-meta">
-                <span class="loader-count" id="loaderCount">00</span>
-                <div class="loader-line"><div class="loader-fill"></div></div>
-                <span class="loader-percent">100</span>
-            </div>
+        <!-- Labels en coin (style mise en page éditoriale) -->
+        <span class="loader-corner top-left">
+            <span class="corner-mark">●</span>
+            <span>Cardoso Nettoyages Sàrl</span>
+        </span>
+        <span class="loader-corner top-right">Villars-sur-Glâne ⟶ Fribourg, CH</span>
+
+        <!-- Brand au centre, géant, upright -->
+        <div class="loader-stage" aria-label="Cardoso Nettoyages">
+            <h1 class="loader-brand">
+                <span class="brand-line"><span class="brand-mask">Cardoso</span></span>
+                <span class="brand-line"><span class="brand-mask">Nettoyages</span></span>
+            </h1>
+            <span class="loader-tag">Est. 2008</span>
         </div>
+
+        <!-- Barre de progression discrète en bas -->
+        <div class="loader-progress">
+            <span class="loader-count" id="loaderCount">00</span>
+            <div class="loader-bar"><div class="loader-fill"></div></div>
+            <span class="loader-label">Loading</span>
+        </div>
+
+        <!-- Coin bas-droit : numéro de version / marqueur design -->
+        <span class="loader-corner bottom-right">01 / 24</span>
     </div>
 
     <!-- =====================================================

@@ -125,17 +125,26 @@ em { font-style: italic; }
 }
 
 /* =====================================================
-   3. LOADER — vague rouge qui remplit le texte
+   3. LOADER — la saleté qui se fait nettoyer du texte
 ===================================================== */
+:root {
+    --loader-bg:        #0a0806;
+    --loader-cream:     #f0e8da;
+    --loader-cream-dim: #8c7e6c;
+    --loader-red:       #c64a35;
+}
+
+body:not(.loaded) { overflow: hidden; }
+
 .loader {
     position: fixed;
     inset: 0;
-    background: var(--ink);
     z-index: 10000;
+    background: var(--loader-bg);
+    color: var(--loader-cream);
     overflow: hidden;
-    color: var(--cream);
-    transition: opacity 700ms cubic-bezier(0.65, 0, 0.35, 1),
-                visibility 700ms cubic-bezier(0.65, 0, 0.35, 1);
+    transition: opacity 800ms cubic-bezier(0.65, 0, 0.35, 1),
+                visibility 800ms cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .loader.hidden {
@@ -144,67 +153,92 @@ em { font-style: italic; }
     pointer-events: none;
 }
 
-/* Compteur en haut-gauche, minimal style Neoleaf */
-.loader-percent {
+.loader-sr {
     position: absolute;
-    top: 32px;
-    left: 32px;
-    z-index: 4;
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: rgba(243, 240, 232, 0.75);
-    font-variant-numeric: tabular-nums;
-    display: flex;
-    align-items: baseline;
-    gap: 1px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
-.loader-percent #loaderCount {
-    color: var(--cream);
-    min-width: 2ch;
-    display: inline-block;
-}
-
-.loader-percent-sign {
-    opacity: 0.5;
-}
-
-/* Scène SVG centrée */
 .loader-stage {
     position: absolute;
     inset: 0;
     display: grid;
     place-items: center;
     padding: 0 24px;
-    z-index: 2;
 }
 
-.loader-svg {
-    width: min(95%, 1400px);
-    height: auto;
+.loader-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 4vw, 56px);
+}
+
+.loader-word {
+    position: relative;
     display: block;
-    overflow: visible;
+    line-height: 0;
 }
 
-/* Texte SVG — Fraunces grand, fin, centré */
-.loader-svg-text {
-    font-family: 'Fraunces', 'Times New Roman', serif;
-    font-size: 160px;
+.loader-word canvas {
+    display: block;
+}
+
+.loader-word .loader-dirt {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.loader-word .loader-clean {
+    position: relative;
+}
+
+.loader-pct {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
     font-weight: 500;
-    letter-spacing: -4px;
-    font-variation-settings: 'opsz' 144, 'SOFT' 30;
+    font-size: clamp(13px, 1.05vw, 16px);
+    letter-spacing: 0.04em;
+    color: var(--loader-cream-dim);
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    opacity: 0.95;
 }
 
-/* Couche de base — texte en cream subtil, toujours lisible */
-.loader-svg-base {
-    fill: rgba(243, 240, 232, 0.22);
+.loader-dash {
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--loader-cream-dim);
+    opacity: 0.55;
+    transform: translateY(-4px);
 }
 
-/* Le wave-rise est animé par le JS via attribut transform */
+.loader-num {
+    color: var(--loader-cream);
+    font-style: normal;
+    font-weight: 500;
+    font-family: 'Inter', system-ui, sans-serif;
+    letter-spacing: 0;
+    min-width: 3ch;
+    text-align: right;
+    font-size: 0.95em;
+}
 
-/* Placeholder JS, invisible */
+.loader-sym {
+    color: var(--loader-red);
+    font-style: normal;
+}
+
+/* Placeholder pour la rétrocompatibilité du JS */
 .loader-fill {
     position: absolute;
     width: 0;
@@ -212,19 +246,6 @@ em { font-style: italic; }
     opacity: 0;
     pointer-events: none;
 }
-
-@media (max-width: 700px) {
-    .loader-percent { top: 20px; left: 20px; font-size: 12px; }
-    .loader-stage { padding: 0 16px; }
-    .loader-svg-text { font-size: 88px; letter-spacing: -2px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .loader-wave-rise {
-        transform: translate(0, -320px);
-    }
-}
-
 
 /* =====================================================
    4. NAVIGATION

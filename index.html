@@ -175,36 +175,24 @@
     </div>
 
     <!-- =====================================================
-         LOADER — vague rouge qui remplit l'intérieur du texte
+         LOADER — la saleté qui se nettoie progressivement
     ===================================================== -->
     <div class="loader" id="loader" aria-label="Chargement">
-        <!-- Compteur de chargement -->
-        <div class="loader-percent">
-            <span id="loaderCount">0</span><span class="loader-percent-sign">%</span>
-        </div>
-
-        <!-- SVG avec texte qui se remplit progressivement de la vague -->
         <div class="loader-stage">
-            <svg class="loader-svg" viewBox="0 0 1400 280" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                    <clipPath id="loader-text-clip">
-                        <text class="loader-svg-text" x="50%" y="58%" text-anchor="middle" dominant-baseline="middle">Cardoso Nettoyages</text>
-                    </clipPath>
-                </defs>
-
-                <!-- Texte de base, cream subtil, toujours visible -->
-                <text class="loader-svg-text loader-svg-base" x="50%" y="58%" text-anchor="middle" dominant-baseline="middle" aria-label="Cardoso Nettoyages">Cardoso Nettoyages</text>
-
-                <!-- Vague rouge clippée à la forme du texte -->
-                <g clip-path="url(#loader-text-clip)">
-                    <g class="loader-wave-rise">
-                        <path d="M-100,290 C200,200 400,360 700,260 C900,180 1100,320 1500,250 L1500,2000 L-100,2000 Z" fill="#C0392B"/>
-                    </g>
-                </g>
-            </svg>
+            <h1 class="loader-sr">Cardoso Nettoyages</h1>
+            <div class="loader-stack">
+                <div class="loader-word" id="loaderWord" aria-hidden="true">
+                    <canvas class="loader-clean" id="loaderClean"></canvas>
+                    <canvas class="loader-dirt" id="loaderDirt"></canvas>
+                </div>
+                <div class="loader-pct" aria-hidden="true">
+                    <span class="loader-dash"></span>
+                    <span class="loader-num" id="loaderCount">0</span><span class="loader-sym">%</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Placeholder pour le JS (invisible) -->
+        <!-- Placeholder pour rétrocompat JS -->
         <div class="loader-fill" aria-hidden="true"></div>
     </div>
 

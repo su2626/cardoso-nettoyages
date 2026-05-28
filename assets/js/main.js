@@ -13,53 +13,344 @@
     const isTouch = matchMedia('(hover: none)').matches;
 
     /* =====================================================
-       1. LOADER — compteur + vague qui remplit le texte
+       1. LOADER — saleté clippée aux lettres, érodée par bruit
     ===================================================== */
     (function loader() {
         const el = $('#loader');
-        const count = $('#loaderCount');
-        const fill = $('.loader-fill');
-        const waveGroup = $('.loader-wave-rise');
-        // Pas de loader (landing pages) : on lance le hero directement
-        if (!el || !count) {
+        const word = $('#loaderWord');
+        const cleanCv = $('#loaderClean');
+        const dirtCv = $('#loaderDirt');
+        const pctNum = $('#loaderCount');
+
+        // Landing pages : pas de loader
+        if (!el || !word || !cleanCv || !dirtCv || !pctNum) {
             document.body.classList.add('loaded');
             startHero();
             return;
         }
 
-        // Timings : 2.6s pour la montée de la vague + petit délai initial
-        const total = 2900;       // durée totale comptée
-        const waveDelay = 250;    // délai avant que la vague démarre
-        const waveDuration = 2500;
-        const waveEndY = -320;    // unités SVG, > hauteur du viewBox (280)
-        const start = performance.now();
-        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+        const TEXT = 'Cardoso Nettoyages';
+        const DURATION = 5200;
+        const DPR = Math.min(window.devicePixelRatio || 1, 2);
 
-        const tick = (now) => {
-            const elapsed = now - start;
+        const cleanCx = cleanCv.getContext('2d');
+        const dirtCx = dirtCv.getContext('2d');
 
-            // Compteur (avance plus vite au début, ralentit)
-            const progress = Math.min(elapsed / total, 1);
-            const easedCount = easeOutCubic(progress);
-            count.textContent = Math.floor(easedCount * 100);
-            if (fill) fill.style.width = (easedCount * 100) + '%';
+        let W = 0, H = 0;
+        let cw = 0, ch = 0;
+        let fontSize = 0;
+        let textBaselineY = 0;
 
-            // Vague : démarre après délai, finit au plus tard à waveDelay+waveDuration
-            if (waveGroup) {
-                const waveT = Math.max(0, Math.min((elapsed - waveDelay) / waveDuration, 1));
-                const easedWave = easeOutCubic(waveT);
-                const y = easedWave * waveEndY;
-                waveGroup.setAttribute('transform', 'translate(0,' + y + ')');
+        let dirtBaseCv;
+        let textMaskCv;
+        let maskCv, maskCx, maskData;
+        let mw = 0, mh = 0;
+        let noise = null;
+
+        function fontStr(px) {
+            return '700 ' + px + 'px "Fraunces", "Times New Roman", Georgia, serif';
+        }
+
+        // Bruit de valeur, 3 octaves, biais gauche→droite
+        function buildNoise(w, h) {
+            const out = new Float32Array(w * h);
+            const octaves = [
+                { scale: 10, amp: 0.55 },
+                { scale: 28, amp: 0.30 },
+                { scale: 70, amp: 0.18 }
+            ];
+            for (const oct of octaves) {
+                const scale = oct.scale, amp = oct.amp;
+                const gw = Math.ceil(w / scale) + 2;
+                const gh = Math.ceil(h / scale) + 2;
+                const grid = new Float32Array(gw * gh);
+                for (let i = 0; i < grid.length; i++) grid[i] = Math.random();
+                for (let y = 0; y < h; y++) {
+                    const gy = y / scale, gyi = gy | 0, fy = gy - gyi;
+                    const sy = fy * fy * (3 - 2 * fy);
+                    for (let x = 0; x < w; x++) {
+                        const gx = x / scale, gxi = gx | 0, fx = gx - gxi;
+                        const sx = fx * fx * (3 - 2 * fx);
+                        const i00 = grid[gyi * gw + gxi];
+                        const i10 = grid[gyi * gw + gxi + 1];
+                        const i01 = grid[(gyi + 1) * gw + gxi];
+                        const i11 = grid[(gyi + 1) * gw + gxi + 1];
+                        const top = i00 + (i10 - i00) * sx;
+                        const bot = i01 + (i11 - i01) * sx;
+                        out[y * w + x] += (top + (bot - top) * sy) * amp;
+                    }
+                }
+            }
+            // Biais gauche→droite fort pour que le balayage lise bien à travers le mot
+            const bias = 0.50;
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const i = y * w + x;
+                    const u = x / (w - 1);
+                    const e = u * u * (3 - 2 * u);
+                    out[i] = out[i] * (1 - bias) + e * bias;
+                }
+            }
+            // Normalisation 0..1
+            let mn = Infinity, mx = -Infinity;
+            for (let i = 0; i < out.length; i++) {
+                if (out[i] < mn) mn = out[i];
+                if (out[i] > mx) mx = out[i];
+            }
+            const range = mx - mn || 1;
+            for (let i = 0; i < out.length; i++) out[i] = (out[i] - mn) / range;
+            return out;
+        }
+
+        // Peinture de la saleté : taches rouille, suie, coulures, grain
+        function paintDirt(ctx, w, h, fs) {
+            const g = ctx.createLinearGradient(0, 0, w, h);
+            g.addColorStop(0, 'rgba(8, 4, 2, 0.90)');
+            g.addColorStop(1, 'rgba(28, 10, 6, 0.86)');
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, w, h);
+
+            // Taches de rouille (brun chaud)
+            for (let i = 0; i < 36; i++) {
+                const x = Math.random() * w;
+                const y = Math.random() * h;
+                const r = fs * (0.18 + Math.random() * 0.55);
+                const rg = ctx.createRadialGradient(x, y, 0, x, y, r);
+                const a = 0.32 + Math.random() * 0.35;
+                rg.addColorStop(0, 'rgba(96, 36, 18, ' + a + ')');
+                rg.addColorStop(0.6, 'rgba(60, 20, 10, ' + (a * 0.6) + ')');
+                rg.addColorStop(1, 'rgba(60, 20, 10, 0)');
+                ctx.fillStyle = rg;
+                ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
             }
 
-            if (progress < 1) requestAnimationFrame(tick);
-            else setTimeout(() => {
-                el.classList.add('hidden');
-                document.body.classList.add('loaded');
-                startHero();
-            }, 300);
-        };
-        requestAnimationFrame(tick);
+            // Flaques de suie sombres
+            for (let i = 0; i < 22; i++) {
+                const x = Math.random() * w;
+                const y = Math.random() * h;
+                const r = fs * (0.10 + Math.random() * 0.34);
+                const rg = ctx.createRadialGradient(x, y, 0, x, y, r);
+                rg.addColorStop(0, 'rgba(0, 0, 0, ' + (0.55 + Math.random() * 0.35) + ')');
+                rg.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = rg;
+                ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+            }
+
+            // Coulures verticales (gravité)
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 80; i++) {
+                const x = Math.random() * w;
+                const y = Math.random() * h;
+                const len = fs * (0.25 + Math.random() * 0.9);
+                const ang = (Math.random() * 18 + 81) * Math.PI / 180;
+                ctx.strokeStyle = 'rgba(0, 0, 0, ' + (0.10 + Math.random() * 0.22) + ')';
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
+                ctx.stroke();
+            }
+
+            // Grain fin
+            for (let i = 0; i < 5200; i++) {
+                const x = Math.random() * w;
+                const y = Math.random() * h;
+                const r = Math.random() * 0.9 + 0.2;
+                ctx.fillStyle = 'rgba(0, 0, 0, ' + (Math.random() * 0.50) + ')';
+                ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+            }
+
+            // Quelques particules chaudes (poussière qui attrape la lumière)
+            for (let i = 0; i < 700; i++) {
+                const x = Math.random() * w;
+                const y = Math.random() * h;
+                const r = Math.random() * 0.6 + 0.2;
+                ctx.fillStyle = 'rgba(210, 160, 110, ' + (Math.random() * 0.22) + ')';
+                ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
+        function drawCleanText(ctx) {
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = '#f0e4d0';
+            ctx.font = fontStr(fontSize);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillText(TEXT, W / 2, textBaselineY);
+        }
+
+        function drawTextMask(ctx) {
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = fontStr(fontSize);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillText(TEXT, W / 2, textBaselineY);
+        }
+
+        function setup() {
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            fontSize = Math.max(36, Math.min(vw * 0.075, vh * 0.16, 180));
+
+            const probe = document.createElement('canvas').getContext('2d');
+            probe.font = fontStr(fontSize);
+            const m = probe.measureText(TEXT);
+            const ascent = m.actualBoundingBoxAscent || fontSize * 0.78;
+            const descent = m.actualBoundingBoxDescent || fontSize * 0.22;
+            const textW = m.width;
+            const textH = ascent + descent;
+
+            const padX = Math.max(20, fontSize * 0.08);
+            const padY = Math.max(16, fontSize * 0.18);
+
+            W = Math.ceil(textW + padX * 2);
+            H = Math.ceil(textH + padY * 2);
+            cw = Math.floor(W * DPR);
+            ch = Math.floor(H * DPR);
+            textBaselineY = padY + ascent;
+
+            word.style.width = W + 'px';
+            word.style.height = H + 'px';
+
+            [cleanCv, dirtCv].forEach(function (cv) {
+                cv.width = cw;
+                cv.height = ch;
+                cv.style.width = W + 'px';
+                cv.style.height = H + 'px';
+            });
+
+            // Buffer saleté
+            dirtBaseCv = document.createElement('canvas');
+            dirtBaseCv.width = cw;
+            dirtBaseCv.height = ch;
+            const dCx = dirtBaseCv.getContext('2d');
+            dCx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            paintDirt(dCx, W, H, fontSize);
+
+            // Masque silhouette des lettres
+            textMaskCv = document.createElement('canvas');
+            textMaskCv.width = cw;
+            textMaskCv.height = ch;
+            drawTextMask(textMaskCv.getContext('2d'));
+
+            // Masque de bruit (mi-résolution)
+            mw = Math.max(8, Math.floor(cw * 0.55));
+            mh = Math.max(8, Math.floor(ch * 0.55));
+            noise = buildNoise(mw, mh);
+
+            maskCv = document.createElement('canvas');
+            maskCv.width = mw;
+            maskCv.height = mh;
+            maskCx = maskCv.getContext('2d');
+            maskData = maskCx.createImageData(mw, mh);
+            const md = maskData.data;
+            for (let i = 0; i < mw * mh; i++) {
+                md[i * 4 + 0] = 0;
+                md[i * 4 + 1] = 0;
+                md[i * 4 + 2] = 0;
+                md[i * 4 + 3] = 0;
+            }
+
+            dirtCx.imageSmoothingEnabled = true;
+            dirtCx.imageSmoothingQuality = 'high';
+
+            drawCleanText(cleanCx);
+        }
+
+        const EDGE = 0.085;
+
+        function renderAt(p) {
+            const t = -EDGE + p * (1 + 2 * EDGE);
+            const tLow = t - EDGE;
+            const tHigh = t + EDGE;
+            const inv2e = 1 / (2 * EDGE);
+
+            const md = maskData.data;
+            for (let i = 0; i < noise.length; i++) {
+                const n = noise[i];
+                let a;
+                if (n <= tLow) a = 255;
+                else if (n >= tHigh) a = 0;
+                else {
+                    const k = (tHigh - n) * inv2e;
+                    a = (k * k * (3 - 2 * k) * 255) | 0;
+                }
+                md[i * 4 + 3] = a;
+            }
+            maskCx.putImageData(maskData, 0, 0);
+
+            // 1) clear → 2) peinture saleté → 3) clip aux lettres → 4) érosion par bruit
+            dirtCx.setTransform(1, 0, 0, 1, 0, 0);
+            dirtCx.globalCompositeOperation = 'source-over';
+            dirtCx.clearRect(0, 0, cw, ch);
+            dirtCx.drawImage(dirtBaseCv, 0, 0);
+            dirtCx.globalCompositeOperation = 'destination-in';
+            dirtCx.drawImage(textMaskCv, 0, 0);
+            dirtCx.globalCompositeOperation = 'destination-out';
+            dirtCx.drawImage(maskCv, 0, 0, cw, ch);
+            dirtCx.globalCompositeOperation = 'source-over';
+        }
+
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        let t0 = null;
+        let finished = false;
+
+        function tick(t) {
+            if (t0 == null) t0 = t;
+            const linear = Math.min((t - t0) / DURATION, 1);
+            const eased = easeInOutCubic(linear);
+
+            renderAt(eased);
+            pctNum.textContent = Math.round(eased * 100);
+
+            if (linear < 1) {
+                requestAnimationFrame(tick);
+            } else if (!finished) {
+                finished = true;
+                // Frame finale propre garantie
+                dirtCx.setTransform(1, 0, 0, 1, 0, 0);
+                dirtCx.clearRect(0, 0, cw, ch);
+                pctNum.textContent = '100';
+
+                setTimeout(() => {
+                    el.classList.add('hidden');
+                    document.body.classList.add('loaded');
+                    startHero();
+                }, 400);
+            }
+        }
+
+        let resizeTO;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTO);
+            resizeTO = setTimeout(() => {
+                if (finished) {
+                    setup();
+                    drawCleanText(cleanCx);
+                    dirtCx.setTransform(1, 0, 0, 1, 0, 0);
+                    dirtCx.clearRect(0, 0, cw, ch);
+                } else {
+                    setup();
+                }
+            }, 140);
+        });
+
+        function start() {
+            setup();
+            renderAt(0); // Frame 0 = lettres entièrement sales
+            requestAnimationFrame(tick);
+        }
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => requestAnimationFrame(start));
+        } else {
+            requestAnimationFrame(start);
+        }
     })();
 
     /* =====================================================

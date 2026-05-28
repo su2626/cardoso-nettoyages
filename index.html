@@ -175,7 +175,7 @@
     </div>
 
     <!-- =====================================================
-         LOADER — vague rouge qui monte, brand centré
+         LOADER — vague rouge qui remplit l'intérieur du texte
     ===================================================== -->
     <div class="loader" id="loader" aria-label="Chargement">
         <!-- Compteur de chargement -->
@@ -183,25 +183,28 @@
             <span id="loaderCount">0</span><span class="loader-percent-sign">%</span>
         </div>
 
-        <!-- Brand centré -->
+        <!-- SVG avec texte qui se remplit progressivement de la vague -->
         <div class="loader-stage">
-            <h1 class="loader-brand">Cardoso Nettoyage</h1>
+            <svg class="loader-svg" viewBox="0 0 1400 280" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <clipPath id="loader-text-clip">
+                        <text class="loader-svg-text" x="50%" y="58%" text-anchor="middle" dominant-baseline="middle">Cardoso Nettoyages</text>
+                    </clipPath>
+                </defs>
+
+                <!-- Texte de base, cream subtil, toujours visible -->
+                <text class="loader-svg-text loader-svg-base" x="50%" y="58%" text-anchor="middle" dominant-baseline="middle" aria-label="Cardoso Nettoyages">Cardoso Nettoyages</text>
+
+                <!-- Vague rouge clippée à la forme du texte -->
+                <g clip-path="url(#loader-text-clip)">
+                    <g class="loader-wave-rise">
+                        <path d="M-100,290 C200,200 400,360 700,260 C900,180 1100,320 1500,250 L1500,2000 L-100,2000 Z" fill="#C0392B"/>
+                    </g>
+                </g>
+            </svg>
         </div>
 
-        <!-- Vagues SVG superposées qui montent depuis le bas -->
-        <div class="loader-waves" aria-hidden="true">
-            <svg class="wave wave-back" viewBox="0 0 1440 900" preserveAspectRatio="none">
-                <path d="M0,180 C240,80 480,260 720,180 C960,100 1200,260 1440,180 L1440,900 L0,900 Z" fill="#7a2418"/>
-            </svg>
-            <svg class="wave wave-mid" viewBox="0 0 1440 900" preserveAspectRatio="none">
-                <path d="M0,200 C320,60 560,300 800,200 C1040,100 1240,260 1440,200 L1440,900 L0,900 Z" fill="#962A20"/>
-            </svg>
-            <svg class="wave wave-front" viewBox="0 0 1440 900" preserveAspectRatio="none">
-                <path d="M0,220 C240,100 520,320 800,200 C1080,80 1200,280 1440,220 L1440,900 L0,900 Z" fill="#C0392B"/>
-            </svg>
-        </div>
-
-        <!-- Élément requis par le JS (invisible) -->
+        <!-- Placeholder pour le JS (invisible) -->
         <div class="loader-fill" aria-hidden="true"></div>
     </div>
 

@@ -13,12 +13,13 @@
     const isTouch = matchMedia('(hover: none)').matches;
 
     /* =====================================================
-       1. LOADER — compteur 0 à 100, vagues animées en CSS
+       1. LOADER — compteur + vague qui remplit le texte
     ===================================================== */
     (function loader() {
         const el = $('#loader');
         const count = $('#loaderCount');
-        const fill = $('.loader-fill'); // optionnel
+        const fill = $('.loader-fill');
+        const waveGroup = $('.loader-wave-rise');
         // Pas de loader (landing pages) : on lance le hero directement
         if (!el || !count) {
             document.body.classList.add('loaded');
@@ -26,24 +27,37 @@
             return;
         }
 
-        // Synchronisé avec l'animation des vagues : 2.8s + délai
-        const total = 2800;
+        // Timings : 2.6s pour la montée de la vague + petit délai initial
+        const total = 2900;       // durée totale comptée
+        const waveDelay = 250;    // délai avant que la vague démarre
+        const waveDuration = 2500;
+        const waveEndY = -320;    // unités SVG, > hauteur du viewBox (280)
         const start = performance.now();
         const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
 
         const tick = (now) => {
             const elapsed = now - start;
+
+            // Compteur (avance plus vite au début, ralentit)
             const progress = Math.min(elapsed / total, 1);
-            const eased = easeOutCubic(progress);
-            const n = Math.floor(eased * 100);
-            count.textContent = n;
-            if (fill) fill.style.width = (eased * 100) + '%';
+            const easedCount = easeOutCubic(progress);
+            count.textContent = Math.floor(easedCount * 100);
+            if (fill) fill.style.width = (easedCount * 100) + '%';
+
+            // Vague : démarre après délai, finit au plus tard à waveDelay+waveDuration
+            if (waveGroup) {
+                const waveT = Math.max(0, Math.min((elapsed - waveDelay) / waveDuration, 1));
+                const easedWave = easeOutCubic(waveT);
+                const y = easedWave * waveEndY;
+                waveGroup.setAttribute('transform', 'translate(0,' + y + ')');
+            }
+
             if (progress < 1) requestAnimationFrame(tick);
             else setTimeout(() => {
                 el.classList.add('hidden');
                 document.body.classList.add('loaded');
                 startHero();
-            }, 320);
+            }, 300);
         };
         requestAnimationFrame(tick);
     })();
